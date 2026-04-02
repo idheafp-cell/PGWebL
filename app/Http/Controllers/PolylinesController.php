@@ -36,12 +36,12 @@ class PolylinesController extends Controller
         // Validasi input
         $request->validate(
             [
-                'geometry_polylines' => 'required',
+                'geometry_polyline' => 'required',
                 'name' => 'required|string|max:255',
                 'description' => 'required|string',
             ],
             [
-                'geometry_polylines.required' => 'Field Geometry Polylines harus diisi.',
+                'geometry_polyline.required' => 'Field Geometry Polyline harus diisi.',
                 'name.required' => 'Field Name harus diisi.',
                 'name.string' => 'Field Name harus berupa string.',
                 'name.max' => 'Field Name tidak boleh lebih dari 255 karakter.',

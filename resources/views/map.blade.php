@@ -188,7 +188,7 @@
                     $('#modalInputPolyline').modal('show');
 
                     // Modal dismiss reload page
-                    $('#modalInputPolyline').on('hidden.bs.modal', function () {
+                    $('#modalInputPolyline').on('hidden.bs.modal', function() {
                         location.reload();
                     });
                 } else if (type === 'polygon' || type === 'rectangle') {
@@ -199,7 +199,7 @@
                     $('#modalInputPolygon').modal('show');
 
                     // Modal dismiss reload page
-                    $('#modalInputPolygon').on('hidden.bs.modal', function () {
+                    $('#modalInputPolygon').on('hidden.bs.modal', function() {
                         location.reload();
                     });
                 } else if (type === 'marker') {
@@ -210,7 +210,7 @@
                     $('#modalInputPoint').modal('show');
 
                     // Modal dismiss reload page
-                    $('#modalInputPoint').on('hidden.bs.modal', function () {
+                    $('#modalInputPoint').on('hidden.bs.modal', function() {
                         location.reload();
                     });
                 } else {
@@ -218,9 +218,93 @@
                 }
 
 
-
-
                 drawnItems.addLayer(layer);
             });
+
+            // GeoJSON Point
+            var points = L.geoJSON(null, {
+                // Style
+
+                // onEachFeature
+                onEachFeature: function(feature, layer) {
+                    // variable popup content
+                    var popup_content = "Nama: " + feature.properties.name + "<br>" +
+                        "Deskripsi: " + feature.properties.description + "<br>" +
+                        "Dibuat: " + feature.properties.created_at;
+
+                    layer.on({
+                        click: function(e) {
+                            points.bindPopup(popup_content);
+                        },
+                    });
+                },
+            });
+
+            $.getJSON("{{ route('geojson.point') }}", function(data) {
+                points.addData(data); // Menambahkan data ke dalam GeoJSON Point Sarana Prasarana
+                map.addLayer(points); // Menambahkan GeoJSON Point Sarana Prasarana ke dalam peta
+            });
+
+            // GeoJSON Polyline
+            var polylines = L.geoJSON(null, {
+                // Style
+
+                // onEachFeature
+                onEachFeature: function(feature, layer) {
+                    // variable popup content
+                    var popup_content = "Nama: " + feature.properties.name + "<br>" +
+                        "Deskripsi: " + feature.properties.description + "<br>" +
+                        "Dibuat: " + feature.properties.created_at;
+
+                    layer.on({
+                        click: function(e) {
+                            polylines.bindPopup(popup_content);
+                        },
+                    });
+                },
+            });
+
+            $.getJSON("{{ route('geojson.polylines') }}", function(data) {
+                polylines.addData(data); // Menambahkan data ke dalam GeoJSON Polyline Sarana Prasarana
+                map.addLayer(polylines); // Menambahkan GeoJSON Polyline Sarana Prasarana ke dalam peta
+            });
+
+            // GeoJSON Polygon
+            var polygons = L.geoJSON(null, {
+                // Style
+
+                // onEachFeature
+                onEachFeature: function(feature, layer) {
+                    // variable popup content
+                    var popup_content = "Nama: " + feature.properties.name + "<br>" +
+                        "Deskripsi: " + feature.properties.description + "<br>" +
+                        "Dibuat: " + feature.properties.created_at;
+
+                    layer.on({
+                        click: function(e) {
+                            polygons.bindPopup(popup_content);
+                        },
+                    });
+                },
+            });
+
+            $.getJSON("{{ route('geojson.polygons') }}", function(data) {
+                polygons.addData(data); // Menambahkan data ke dalam GeoJSON Polygon Sarana Prasarana
+                map.addLayer(polygons); // Menambahkan GeoJSON Polygon Sarana Prasarana ke dalam peta
+            });
+
+            // Control Layer
+            var baseMaps = {
+
+            };
+
+            var overlayMaps = {
+                "Points": points,
+                "Polylines": polylines,
+                "Polygons": polygons,
+            };
+
+            var controllayer = L.control.layers(baseMaps, overlayMaps);
+            controllayer.addTo(map);
         </script>
     @endsection
