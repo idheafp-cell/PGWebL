@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\polylinesModel;
+
+use App\Models\PolylinesModel;
 use Illuminate\Http\Request;
 
 class PolylinesController extends Controller
 {
     public function __construct()
     {
-        $this->polylines = new polylinesModel();
+        $this->polylines = new PolylinesModel();
     }
 
     /**
@@ -39,6 +40,7 @@ class PolylinesController extends Controller
                 'geometry_polyline' => 'required',
                 'name' => 'required|string|max:255',
                 'description' => 'required|string',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             ],
             [
                 'geometry_polyline.required' => 'Field Geometry Polyline harus diisi.',
@@ -47,13 +49,31 @@ class PolylinesController extends Controller
                 'name.max' => 'Field Name tidak boleh lebih dari 255 karakter.',
                 'description.required' => 'Field Description harus diisi.',
                 'description.string' => 'Field Description harus berupa string.',
+                'image.image' => 'Field Image harus berupa file gambar.',
+                'image.mimes' => 'Field Image harus berupa file dengan ekstensi: jpeg, png, jpg.',
+                'image.max' => 'Field Image tidak boleh lebih dari 2MB.',
             ]
         );
+
+        // buat folder untuk menyimpan gambar jika belum ada
+        if (!is_dir('storage/images')) {
+            mkdir('./storage/images', 0777);
+        }
+
+        // proses upload gambar jika ada
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name_image = time() . "_polyline." . strtolower($image->getClientOriginalExtension());
+            $image->move('storage/images', $name_image);
+        } else {
+            $name_image = null;
+        }
 
         $data = [
         'geom' => $request->geometry_polyline,
         'name' => $request->name,
         'description' => $request->description,
+        'image' => $name_image,
         ];
 
         // simpan data ke database

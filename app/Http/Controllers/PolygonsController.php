@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\polygonesModel;
+use App\Models\PolygonesModel;
 use Illuminate\Http\Request;
 
 class PolygonsController extends Controller
@@ -10,7 +10,7 @@ class PolygonsController extends Controller
     // fungsi untuk menghubungkan dengan model ke controller
     public function __construct()
     {
-        $this->polygones = new polygonesModel();
+        $this->polygones = new PolygonesModel();
     }
 
     /**
@@ -40,6 +40,7 @@ class PolygonsController extends Controller
                 'geometry_polygon' => 'required',
                 'name' => 'required|string|max:255',
                 'description' => 'required|string',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             ],
             [
                 'geometry_polygon.required' => 'Field Geometry Polygon harus diisi.',
@@ -48,13 +49,31 @@ class PolygonsController extends Controller
                 'name.max' => 'Field Name tidak boleh lebih dari 255 karakter.',
                 'description.required' => 'Field Description harus diisi.',
                 'description.string' => 'Field Description harus berupa string.',
+                'image.image' => 'Field Image harus berupa file gambar.',
+                'image.mimes' => 'Field Image harus berupa file dengan ekstensi: jpeg, png, jpg.',
+                'image.max' => 'Field Image tidak boleh lebih dari 2MB.',
             ]
         );
+
+        // buat folder untuk menyimpan gambar jika belum ada
+        if (!is_dir('storage/images')) {
+            mkdir('./storage/images', 0777);
+        }
+
+        // proses upload gambar jika ada
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name_image = time() . "_polygons." . strtolower($image->getClientOriginalExtension());
+            $image->move('storage/images', $name_image);
+        } else {
+            $name_image = null;
+        }
 
         $data = [
         'geom' => $request->geometry_polygon,
         'name' => $request->name,
         'description' => $request->description,
+        'image' => $name_image,
         ];
 
         // simpan data ke database
