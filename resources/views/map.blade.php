@@ -260,12 +260,23 @@
 
                 // onEachFeature
                 onEachFeature: function(feature, layer) {
+                    // Route delete feature
+                    var routedelete = "{{ route('points.delete', ':id') }}";
+                    routedelete = routedelete.replace(':id', feature.properties.id);
+
                     // variable popup content
                     var popup_content = "<image src='{{ asset('storage/images/') }}/" + feature.properties.image +
                         "' alt='' class='img-thumbnail' width='400'>"+ "<br>" +
                         "Nama: " + feature.properties.name + "<br>" +
                         "Deskripsi: " + feature.properties.description + "<br>" +
-                        "Dibuat: " + feature.properties.created_at;
+                        "Dibuat: " + feature.properties.created_at +
+                        "<br><br>" +
+                        "<form action='" + routedelete + "' method='post'>" +
+                            '@csrf' +
+                            '@method("delete")' +
+                        "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature'><i class='fa-solid fa-trash-can'></i></button>" +
+                        "</form>"
+                        ;
 
                     layer.on({
                         click: function(e) {
@@ -286,11 +297,21 @@
 
                 // onEachFeature
                 onEachFeature: function(feature, layer) {
+                    // Route delete feature
+                    var routedelete = "{{ route('polylines.delete', ':id') }}";
+                    routedelete = routedelete.replace(':id', feature.properties.id);
+
                     // variable popup content
                     var popup_content = "<image src='{{ asset('storage/images/') }}/" + feature.properties.image +
                         "' alt='' class='img-thumbnail' width='400'>"+ "<br>" + "Nama: " + feature.properties.name + "<br>" +
                         "Deskripsi: " + feature.properties.description + "<br>" +
-                        "Dibuat: " + feature.properties.created_at;
+                        "Dibuat: " + feature.properties.created_at +
+                        "<br><br>" +
+                        "<form action='" + routedelete + "' method='post'>" +
+                            '@csrf' +
+                            '@method("delete")' +
+                        "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature'><i class='fa-solid fa-trash-can'></i></button>" +
+                        "</form>";
 
                     layer.on({
                         click: function(e) {
@@ -311,11 +332,21 @@
 
                 // onEachFeature
                 onEachFeature: function(feature, layer) {
+                    // Route delete feature
+                    var routedelete = "{{ route('polygons.delete', ':id') }}";
+                    routedelete = routedelete.replace(':id', feature.properties.id);
+
                     // variable popup content
                     var popup_content = "<image src='{{ asset('storage/images/') }}/" + feature.properties.image +
                         "' alt='' class='img-thumbnail' width='400'>"+ "<br>" + "Nama: " + feature.properties.name + "<br>" +
                         "Deskripsi: " + feature.properties.description + "<br>" +
-                        "Dibuat: " + feature.properties.created_at;
+                        "Dibuat: " + feature.properties.created_at +
+                        "<br><br>" +
+                        "<form action='" + routedelete + "' method='post'>" +
+                            '@csrf' +
+                            '@method("delete")' +
+                        "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature'><i class='fa-solid fa-trash-can'></i></button>" +
+                        "</form>";
 
                     layer.on({
                         click: function(e) {
