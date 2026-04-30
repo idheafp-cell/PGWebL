@@ -274,7 +274,7 @@
                         "<form action='" + routedelete + "' method='post'>" +
                             '@csrf' +
                             '@method("delete")' +
-                        "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature'><i class='fa-solid fa-trash-can'></i></button>" +
+                        "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature' onclick='return confirm(`Are you sure to delete this feature?`)'><i class='fa-solid fa-trash-can'></i></button>" +
                         "</form>"
                         ;
 
@@ -310,7 +310,7 @@
                         "<form action='" + routedelete + "' method='post'>" +
                             '@csrf' +
                             '@method("delete")' +
-                        "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature'><i class='fa-solid fa-trash-can'></i></button>" +
+                        "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature' onclick='return confirm(`Are you sure to delete this feature?`)'><i class='fa-solid fa-trash-can'></i></button>" +
                         "</form>";
 
                     layer.on({
@@ -345,7 +345,7 @@
                         "<form action='" + routedelete + "' method='post'>" +
                             '@csrf' +
                             '@method("delete")' +
-                        "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature'><i class='fa-solid fa-trash-can'></i></button>" +
+                        "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature' onclick='return confirm(`Are you sure to delete this feature?`)'><i class='fa-solid fa-trash-can'></i></button>" +
                         "</form>";
 
                     layer.on({
