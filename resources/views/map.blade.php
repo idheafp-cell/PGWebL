@@ -8,10 +8,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
 
         <style>
-            body, html {
+            body,
+            html {
                 width: 100%;
-                height: 100%
-                margin: 0;
+                height: 100% margin: 0;
                 padding: 0;
             }
 
@@ -123,7 +123,8 @@
                         <h5 class="modal-title">Input Polygon</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('polygons.store') }}" method="post" enctype="multipart/form-data" enctype="multipart/form-data">
+                    <form action="{{ route('polygons.store') }}" method="post" enctype="multipart/form-data"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             {{-- Form Input Polygon --}}
@@ -264,19 +265,29 @@
                     var routedelete = "{{ route('points.delete', ':id') }}";
                     routedelete = routedelete.replace(':id', feature.properties.id);
 
+                    // Route edit feature
+                    var routeedit = "{{ route('point.edit', ':id') }}";
+                    routeedit = routeedit.replace(':id', feature.properties.id);
+
                     // variable popup content
                     var popup_content = "<image src='{{ asset('storage/images/') }}/" + feature.properties.image +
-                        "' alt='' class='img-thumbnail' width='400'>"+ "<br>" +
+                        "' alt='' class='img-thumbnail' width='400'>" + "<br>" +
                         "Nama: " + feature.properties.name + "<br>" +
                         "Deskripsi: " + feature.properties.description + "<br>" +
                         "Dibuat: " + feature.properties.created_at +
                         "<br><br>" +
+                        "<div class='row'>" +
+                        "<div class='col-2'>" +
                         "<form action='" + routedelete + "' method='post'>" +
-                            '@csrf' +
-                            '@method("delete")' +
+                        '@csrf' +
+                        '@method('delete')' +
                         "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature' onclick='return confirm(`Are you sure to delete this feature?`)'><i class='fa-solid fa-trash-can'></i></button>" +
-                        "</form>"
-                        ;
+                        "</form>" +
+                        "</div>" +
+                        "<div class='col-2'>" +
+                        "<a href='" + routeedit + "' class='btn btn-sm btn-warning' title='Edit feature'><i class='fa-solid fa-pen-to-square'></i></a>" +
+                        "</div>" +
+                        "</div>";
 
                     layer.on({
                         click: function(e) {
@@ -286,7 +297,7 @@
                 },
             });
 
-            $.getJSON("{{ route('geojson.point') }}", function(data) {
+            $.getJSON("{{ route('geojson.points') }}", function(data) {
                 points.addData(data); // Menambahkan data ke dalam GeoJSON Point Sarana Prasarana
                 map.addLayer(points); // Menambahkan GeoJSON Point Sarana Prasarana ke dalam peta
             });
@@ -301,17 +312,29 @@
                     var routedelete = "{{ route('polylines.delete', ':id') }}";
                     routedelete = routedelete.replace(':id', feature.properties.id);
 
+                    // Route edit feature
+                    var routeedit = "{{ route('polyline.edit', ':id') }}";
+                    routeedit = routeedit.replace(':id', feature.properties.id);
+
                     // variable popup content
                     var popup_content = "<image src='{{ asset('storage/images/') }}/" + feature.properties.image +
-                        "' alt='' class='img-thumbnail' width='400'>"+ "<br>" + "Nama: " + feature.properties.name + "<br>" +
+                        "' alt='' class='img-thumbnail' width='400'>" + "<br>" + "Nama: " + feature.properties
+                        .name + "<br>" +
                         "Deskripsi: " + feature.properties.description + "<br>" +
                         "Dibuat: " + feature.properties.created_at +
                         "<br><br>" +
+                        "<div class='row'>" +
+                        "<div class='col-2'>" +
                         "<form action='" + routedelete + "' method='post'>" +
-                            '@csrf' +
-                            '@method("delete")' +
+                        '@csrf' +
+                        '@method('delete')' +
                         "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature' onclick='return confirm(`Are you sure to delete this feature?`)'><i class='fa-solid fa-trash-can'></i></button>" +
-                        "</form>";
+                        "</form>" +
+                        "</div>" +
+                        "<div class='col-2'>" +
+                        "<a href='" + routeedit + "' class='btn btn-sm btn-warning' title='Edit feature'><i class='fa-solid fa-pen-to-square'></i></a>" +
+                        "</div>" +
+                        "</div>";
 
                     layer.on({
                         click: function(e) {
@@ -336,17 +359,29 @@
                     var routedelete = "{{ route('polygons.delete', ':id') }}";
                     routedelete = routedelete.replace(':id', feature.properties.id);
 
+                    // Route edit feature
+                    var routeedit = "{{ route('polygon.edit', ':id') }}";
+                    routeedit = routeedit.replace(':id', feature.properties.id);
+
                     // variable popup content
                     var popup_content = "<image src='{{ asset('storage/images/') }}/" + feature.properties.image +
-                        "' alt='' class='img-thumbnail' width='400'>"+ "<br>" + "Nama: " + feature.properties.name + "<br>" +
+                        "' alt='' class='img-thumbnail' width='400'>" + "<br>" + "Nama: " + feature.properties
+                        .name + "<br>" +
                         "Deskripsi: " + feature.properties.description + "<br>" +
                         "Dibuat: " + feature.properties.created_at +
                         "<br><br>" +
+                        "<div class='row'>" +
+                        "<div class='col-2'>" +
                         "<form action='" + routedelete + "' method='post'>" +
-                            '@csrf' +
-                            '@method("delete")' +
+                        '@csrf' +
+                        '@method('delete')' +
                         "<button type='submit' class='btn btn-sm btn-danger' title='Delete feature' onclick='return confirm(`Are you sure to delete this feature?`)'><i class='fa-solid fa-trash-can'></i></button>" +
-                        "</form>";
+                        "</form>" +
+                        "</div>" +
+                        "<div class='col-2'>" +
+                        "<a href='" + routeedit + "' class='btn btn-sm btn-warning' title='Edit feature'><i class='fa-solid fa-pen-to-square'></i></a>" +
+                        "</div>" +
+                        "</div>";
 
                     layer.on({
                         click: function(e) {
